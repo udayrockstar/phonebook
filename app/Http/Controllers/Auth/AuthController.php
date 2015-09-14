@@ -65,6 +65,17 @@ class AuthController extends Controller
         ]);
     }
 
+    public function login()
+     {
+       //echo "Came to validation part>>>!";
+       if(Auth::attempt(array('email' => Input::json('email'), 'password' => Input::json('password'))))
+       {
+         return Response::json(Auth::user());
+       } else {
+         return Response::json(array('flash' => 'Invalid username or password'), 500);
+       }
+     }
+
     protected function register()
     {
       $data = Input::all();

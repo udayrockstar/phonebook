@@ -4,7 +4,7 @@ app.config(function($routeProvider) {
 
   $routeProvider.when('/login', {
     templateUrl: 'templates/login.html',
-    //controller: 'LoginController'
+    controller: 'LoginController'
   });
 
   $routeProvider.when('/register', {
@@ -52,7 +52,6 @@ app.controller('DashBoardController', function() {
 app.controller('RegisterController',function($scope,RegisterService,FlashContainer,$timeout,$location){
   console.log('Register here');
   $scope.register = function(){
-    // console.log($scope);
     RegisterService.register($scope.user);
     FlashContainer.show("Registered Successfully..!");
     $timeout(FlashContainer.clear, 5000)
@@ -61,6 +60,26 @@ app.controller('RegisterController',function($scope,RegisterService,FlashContain
     });
   }
 });
+
+//
+app.factory("AuthenticationService", function($http, FlashContainer, CSRF_TOKEN) {
+  return {
+     login: function(credentials) {
+       var login = $http.post("/auth/login",credentials);
+       //return login;
+     }
+   }
+
+});
+app.controller('LoginController',function($scope,AuthenticationService,$location){
+  console.log('Controller');
+  $scope.credentials = {};
+  $scope.login = function(){
+   AuthenticationService.login($scope.credentials).success(function() {
+    $location.path('/home');
+  });
+  }
+})
 
 function callAtInterval() {
     console.log("Interval occurred");
