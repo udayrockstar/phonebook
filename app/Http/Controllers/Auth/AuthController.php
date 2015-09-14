@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -66,6 +67,7 @@ class AuthController extends Controller
     protected function register()
     {
       echo "Its coming to controller";
-      echo  Input::get('first_name');
+      // echo  Input::get('first_name');
+      echo  Input::get('email');
     }
 }
