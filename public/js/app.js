@@ -22,11 +22,26 @@ app.config(function($routeProvider) {
   });
 })
 
+app.factory('FlashContainer',function($rootScope){
+  return {
+    show : function(message){
+      $rootScope.succ = message;
+    },
+    clear : function(){
+      $rootScope.succ = "";
+    }
+  }
+})
 app.service('RegisterService',function($http){
   return{
     register : function(user){
       // console.log(user);
-      $http.post('auth/register',user);
+      $http.post('auth/register',user).
+      then(function(data){
+        if(data.data=='Success'){
+          return data.data;
+        }
+      });
     }
   }
 })
@@ -34,10 +49,19 @@ app.controller('DashBoardController', function() {
   console.log('dashboard Controller');
 });
 
-app.controller('RegisterController',function($scope,RegisterService){
+app.controller('RegisterController',function($scope,RegisterService,FlashContainer,$timeout,$location){
   console.log('Register here');
   $scope.register = function(){
     // console.log($scope);
     RegisterService.register($scope.user);
+    FlashContainer.show("Registered Successfully..!");
+    $timeout(FlashContainer.clear, 5000)
+    .then(function(){
+      $location.path('/login');
+    });
   }
-})
+});
+
+function callAtInterval() {
+    console.log("Interval occurred");
+}

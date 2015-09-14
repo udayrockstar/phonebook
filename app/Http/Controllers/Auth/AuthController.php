@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Validator;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -66,8 +67,16 @@ class AuthController extends Controller
 
     protected function register()
     {
-      echo "Its coming to controller";
-      // echo  Input::get('first_name');
-      echo  Input::get('email');
+      $data = Input::all();
+
+      $user_details = [
+        'first_name'=> $data['first_name'],
+        'last_name' => $data['last_name'],
+        'email'     => $data['email'],
+        'password'  => bcrypt($data['password'])
+      ];
+      if(DB::table('users')->insert($user_details)){
+        echo json_encode('Success');
+      }
     }
 }

@@ -20,7 +20,7 @@
 
   <div class="row">
     <div class="large-12">
-      <center><div class="title">Phone Book prathap</div></center>
+      <center><div class="title">Phone Book</div></center>
       <div class="row">
         <div class="large-6 large-offset-3">
           <div id="flash" class="alert-box alert" ng-show="flash">
